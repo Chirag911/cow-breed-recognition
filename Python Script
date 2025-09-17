@@ -1,0 +1,107 @@
+// install this library first Step 1: Install the Required Library
+First, you need to install the necessary Python library. Open your terminal or command prompt and run the following command:
+
+pip install bing-image-downloader
+
+Step 2: The Python Script
+Copy the code below and save it in a file named download_breeds.py
+
+// Main code starts from here -------------------------------------------------------------------------------------------------
+
+# download_breeds.py
+# A script to download images of Indian cow and buffalo breeds from the internet.
+
+import os
+from bing_image_downloader import downloader
+
+# --- Configuration ---
+# You can add or remove breeds from these lists.
+COW_BREEDS = [
+    "Gir cow",
+    "Sahiwal cattle",
+    "Red Sindhi cow",
+    "Rathi cow",
+    "Kankrej cattle",
+    "Ongole cattle",
+    "Tharparkar cattle",
+    "Kangayam bull",
+    "Vechur cow",
+    "Punganur dwarf cattle",
+]
+
+BUFFALO_BREEDS = [
+    "Murrah buffalo",
+    "Surti buffalo",
+    "Jaffarabadi buffalo",
+    "Bhadawari buffalo",
+    "Nili-Ravi buffalo",
+    "Mehsana buffalo",
+]
+
+# Total number of images to download for each breed.
+IMAGES_PER_BREED = 15
+
+# The main folder where all breed subfolders will be saved.
+BASE_DOWNLOAD_PATH = "indian_livestock_breeds"
+# --- End of Configuration ---
+
+def download_images_for_breed(breed_name, output_directory, limit):
+    """
+    Downloads images for a specific breed using the bing_image_downloader.
+
+    Args:
+        breed_name (str): The search query for the breed (e.g., "Gir cow").
+        output_directory (str): The base directory to save images.
+        limit (int): The number of images to download.
+    """
+    print(f"--- Starting download for: {breed_name} ---")
+    try:
+        downloader.download(
+            query=breed_name,
+            limit=limit,
+            output_dir=output_directory,
+            adult_filter_off=True,
+            force_replace=False,
+            timeout=60,
+            verbose=True
+        )
+        print(f"✅ Successfully downloaded images for {breed_name}\n")
+    except Exception as e:
+        print(f"❌ Failed to download images for {breed_name}. Error: {e}\n")
+
+def main():
+    """
+    Main function to iterate through breed lists and start the download process.
+    """
+    print("🐂 Starting the Indian Livestock Breed Image Downloader 🐃\n")
+    
+    # Combine the lists of cows and buffaloes
+    all_breeds = COW_BREEDS + BUFFALO_BREEDS
+    
+    # Create the base directory if it doesn't exist
+    if not os.path.exists(BASE_DOWNLOAD_PATH):
+        os.makedirs(BASE_DOWNLOAD_PATH)
+        print(f"Created base directory: {BASE_DOWNLOAD_PATH}")
+
+    # Loop through all breeds and download images
+    for breed in all_breeds:
+        download_images_for_breed(breed, BASE_DOWNLOAD_PATH, IMAGES_PER_BREED)
+
+    print("🎉 All download tasks are complete! 🎉")
+    print(f"Check the '{BASE_DOWNLOAD_PATH}' folder for your images.")
+
+
+if __name__ == "__main__":
+    main()
+
+---------------------------------------------------------------------------------------------------------------------------------
+Step 3: How to Run the Script
+Save the code above as download_breeds.py.
+
+Open your terminal or command prompt.
+
+Navigate to the directory where you saved the file.
+
+Run the script using the following command:
+
+python download_breeds.py
